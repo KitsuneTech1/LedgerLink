@@ -72,8 +72,6 @@ dist
 
 # Gatsby build output
 .cache/
-# Add these lines if they're not already there:
-public
 
 # vuepress build output
 .vuepress/dist
