@@ -4,9 +4,14 @@ import axios from 'axios'
 const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
 
+// point at the API subdomain to avoid GitHub Pages rejecting POST
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL
+})
+
 export async function exchangeDiscordCode(code) {
-  const { data } = await axios.post('/api/auth/discord/callback', { code });
-  return data.token;
+  const { data } = await api.post('/auth/discord/callback', { code })
+  return data.token
 }
 
 export function useAuth() {
