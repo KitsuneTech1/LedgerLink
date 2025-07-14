@@ -1,8 +1,6 @@
 import { ref } from 'vue'
-import axios from 'axios'
+import apiClient from '../api/axios'
 import { useAuthStore } from '../store/auth'
-
-const API_BASE_URL = import.meta.env.VUE_APP_API_BASE_URL
 
 export function useBudget() {
   const paychecks = ref([])
@@ -11,9 +9,7 @@ export function useBudget() {
 
   const fetchBudgets = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/budgets`, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      })
+      const response = await apiClient.get('/budgets')
       paychecks.value = response.data.paychecks
       expenses.value = response.data.expenses
     } catch (error) {
@@ -23,9 +19,7 @@ export function useBudget() {
 
   const addPaycheck = async (paycheck) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/paychecks`, paycheck, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      })
+      const response = await apiClient.post('/paychecks', paycheck)
       paychecks.value.push(response.data)
     } catch (error) {
       console.error('Error adding paycheck:', error)
@@ -34,9 +28,7 @@ export function useBudget() {
 
   const addExpense = async (expense) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/expenses`, expense, {
-        headers: { Authorization: `Bearer ${auth.token}` },
-      })
+      const response = await apiClient.post('/expenses', expense)
       expenses.value.push(response.data)
     } catch (error) {
       console.error('Error adding expense:', error)

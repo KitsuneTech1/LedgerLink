@@ -1,7 +1,5 @@
 import { ref } from 'vue'
-import axios from 'axios'
-
-const API_BASE_URL = import.meta.env.VUE_APP_API_BASE_URL
+import apiClient from '../api/axios'
 const DISCORD_CLIENT_ID = import.meta.env.VUE_APP_DISCORD_CLIENT_ID
 const REDIRECT_URI = import.meta.env.VUE_APP_REDIRECT_URI
 
@@ -20,9 +18,9 @@ export function useAuth() {
     token.value = null
   }
 
-  const handleCallback = async (code) => {
+const handleCallback = async (code) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/discord/callback`, { code })
+      const response = await apiClient.post('/auth/discord/callback', { code })
       const jwt = response.data.token
       localStorage.setItem('jwt', jwt)
       isAuthenticated.value = true
