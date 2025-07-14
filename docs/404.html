@@ -4,10 +4,12 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      sessionStorage.redirect = location.href;
+      // Reconstruct the URL with a hash for the SPA router and redirect.
+      var newUrl = location.origin + '/#' + location.pathname + location.search + location.hash;
+      location.replace(newUrl);
     </script>
-    <meta http-equiv="refresh" content="0;URL='/'"></meta>
   </head>
   <body>
+    <p>If you are not redirected automatically, please click <a href="https://0xb.lol">here</a>.</p>
   </body>
 </html>
