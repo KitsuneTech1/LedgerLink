@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Redirecting…</title>
+    <script>
+      // Turn any “clean” path into a hash route for the SPA
+      (function() {
+        const { pathname, search, origin } = window.location;
+        window.location.replace(origin + '/#' + pathname + search);
+      })();
+    </script>
+  </head>
+  <body>
+    Redirecting… If nothing happens, <a id="redir">click here</a>.
+    <script>
+      const { pathname, search, origin } = window.location;
+      document.getElementById('redir').href = origin + '/#' + pathname + search;
+    </script>
+  </body>
+</html>
