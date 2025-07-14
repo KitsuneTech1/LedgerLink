@@ -7,19 +7,26 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useAuthStore } from '../store/auth'
+import { exchangeDiscordCode } from '../composables/useAuth'
 
 const route = useRoute()
 const router = useRouter()
-const auth = useAuthStore()
 
 onMounted(async () => {
   const code = route.query.code
   if (code) {
-    await auth.handleCallback(code)
-    router.push('/')
+    try {
+      const token = await exchangeDiscordCode(code)
+      localStorage.setItem('jwt', token)
+      // Redirect to the dashboard or a protected route
+      router.push('/')
+    } catch (error) {
+      console.error('Error exchanging Discord code:', error)
+      // Handle error, e.g., redirect to a login failed page
+      router.push('/')
+    }
   } else {
-    // Handle error
+    // Handle missing code
     router.push('/')
   }
 })
