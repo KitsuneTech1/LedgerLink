@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import apiClient from '../api/axios'
-const DISCORD_CLIENT_ID = import.meta.env.VUE_APP_DISCORD_CLIENT_ID
-const REDIRECT_URI = import.meta.env.VUE_APP_REDIRECT_URI
+const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID
+const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
 
 export function useAuth() {
   const isAuthenticated = ref(!!localStorage.getItem('jwt'))

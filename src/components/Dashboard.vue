@@ -1,31 +1,26 @@
 <template>
-  <div class="p-4">
-    <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
-    <div v-if="!auth.isAuthenticated" class="flex justify-center">
-      <LoginButton />
-    </div>
-    <div v-else>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
+  <div class="p-4 md:p-8">
+    <div v-if="auth.isAuthenticated">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">Dashboard</h1>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="space-y-8">
           <PaycheckForm />
-        </div>
-        <div>
           <ExpenseForm />
         </div>
-      </div>
-      <div class="mt-8">
-        <h2 class="text-xl font-bold mb-4">Reports</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-8">
           <SpendingOverTimeChart />
           <CategoryBreakdownChart />
         </div>
       </div>
     </div>
+    <div v-else class="text-center py-16">
+      <h1 class="text-4xl font-bold text-gray-800 mb-4">Welcome to LedgerLink</h1>
+      <p class="text-lg text-gray-600 mb-8">Please log in to manage your budget.</p>
+    </div>
   </div>
 </template>
 
 <script setup>
-import LoginButton from './LoginButton.vue'
 import PaycheckForm from './PaycheckForm.vue'
 import ExpenseForm from './ExpenseForm.vue'
 import SpendingOverTimeChart from './Reports/SpendingOverTimeChart.vue'
