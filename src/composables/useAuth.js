@@ -20,7 +20,7 @@ export function useAuth() {
 
 const handleCallback = async (code) => {
     try {
-      const response = await apiClient.post('/auth/discord/callback', { code })
+      const response = await apiClient.get(`/auth/discord/callback?code=${code}`)
       const jwt = response.data.token
       localStorage.setItem('jwt', jwt)
       isAuthenticated.value = true
