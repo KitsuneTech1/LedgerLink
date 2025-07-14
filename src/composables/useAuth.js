@@ -1,7 +1,17 @@
 import { ref } from 'vue'
-import apiClient from '../api/axios'
+import axios from 'axios'
+
 const DISCORD_CLIENT_ID = import.meta.env.VITE_DISCORD_CLIENT_ID
 const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL
+});
+
+export async function exchangeDiscordCode(code) {
+  const { data } = await api.post('/auth/discord/callback', { code });
+  return data.token;
+}
 
 export function useAuth() {
   const isAuthenticated = ref(!!localStorage.getItem('jwt'))
@@ -18,10 +28,9 @@ export function useAuth() {
     token.value = null
   }
 
-const handleCallback = async (code) => {
+  const handleCallback = async (code) => {
     try {
-      const response = await apiClient.post('/api/auth/discord/callback', { code })
-      const jwt = response.data.token
+      const jwt = await exchangeDiscordCode(code)
       localStorage.setItem('jwt', jwt)
       isAuthenticated.value = true
       token.value = jwt
